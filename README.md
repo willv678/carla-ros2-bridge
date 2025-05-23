@@ -1,6 +1,6 @@
 # CARLA ROS 2 Bridge (for CARLA 0.10.0+)
 
-This package provides a ROS 2 bridge for the CARLA simulator (specifically targeting CARLA 0.10.0 and newer), allowing for the publishing of key vehicle and simulation data to ROS 2 topics. It is developed by Will Varner at the UGA MSC Lab.
+This package provides a ROS 2 bridge for the CARLA simulator (specifically targeting CARLA 0.10.0 and newer running on UE5), allowing for the publishing of key vehicle and simulation data to ROS 2 topics. It is developed by Will Varner at the UGA MSC Lab.
 
 This bridge is intended to provide topics similar to those from older CARLA ROS 1 bridges, facilitating the migration of AD stacks like [CDASim](https://github.com/usdot-fhwa-stol/cdasim) to ROS 2 with newer CARLA versions.
 
@@ -76,20 +76,20 @@ Currently, the bridge provides the following publishers:
 ## Running the Bridge
 
 1.  **Start CARLA Server:**
-    Launch your CARLA 0.10.0+ simulator. Consider using the `--ros2` flag if you intend to leverage CARLA's native ROS 2 capabilities for raw sensor data alongside this bridge.
+    Launch your CARLA 0.10.0+ simulator. using the `--ros2` flag lets us use CARLA 10's new native ROS 2 capabilities for raw sensor data alongside this bridge.
     ```bash
-    ./CarlaUE5.sh # or ./CarlaUE5.sh --ros2
+    ./CarlaUE5.sh --ros2
     ```
 
 2.  **Spawn Ego Vehicle:**
-    Ensure a vehicle with the configured `ego_vehicle_role_name` (default: "hero") is spawned in the CARLA simulation. This can be done using a CARLA client script (e.g., CARLA's `PythonAPI/examples/ros2/ros2_native.py` with a suitable JSON configuration).
+    Ensure a vehicle with the configured `ego_vehicle_role_name` (default: "hero") is spawned in the CARLA simulation. This can be done using a CARLA client script (e.g., CARLA's built-in `PythonAPI/examples/ros2/ros2_native.py` with a suitable JSON configuration).
 
 3.  **Launch the Bridge Nodes:**
     A basic launch file is provided to start all publisher nodes:
     ```bash
     ros2 launch carla_ros2_bridge carla_bridge_launch.py ego_vehicle_role_name:=hero
     ```
-    You can also run nodes individually, for example:
+    You can also run nodes individually if needed:
     ```bash
     ros2 run carla_ros2_bridge odometry_publisher_node --ros-args -p ego_vehicle_role_name:=hero
     ```
@@ -108,13 +108,10 @@ Specific nodes may have additional parameters (e.g., `world_frame_id` for odomet
 
 ## Future Work & To-Do
 
-- [ ] Thorough validation of data accuracy.
-- [ ] Detailed investigation and optimization of synchronous mode handling, especially in conjunction with CARLA's native `--ros2` ticking mechanism.
 - [ ] Addition of TF (Transform) publishers.
-- [ ] More comprehensive error handling and recovery mechanisms.
 - [ ] Support for dynamic spawning/destruction of ego vehicles.
 
 ## License
 
-Created by Will Varner
+Created by Will Varner in UGA's MSC Lab under Dr. Yunli Shao
 This project is licensed under the Apache License 2.0. Check the LICENSE file for details.
